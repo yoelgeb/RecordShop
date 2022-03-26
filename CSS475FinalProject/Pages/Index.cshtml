@@ -1,0 +1,412 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href = "index.css">
+    <title>Document</title>
+</head>
+
+<style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+          
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+          
+        tr:nth-child(odd) {
+            background-color: Lightgreen;
+        }
+</style>
+
+<body>
+
+    <div class="header">
+        <h1>Record Store</h1>
+        <h4>by: Postgres Dinos</h4>
+    </div>
+
+    <button class = "btn_effect" onclick="hideShow_Search()">Search</button>
+    <button class = "btn_effect"  onclick="hideShow_Update()">Update</button>
+    <button class = "btn_effect"  onclick="hideShow_Sell()">Sell</button>
+    <button class = "btn_effect"  onclick="hideShow_Insert()">Insert</button>
+
+    <div id = "buttons" >
+        <div id="Search"style="display: none;">
+            <h1>Search Records</h1>
+            <div>
+                <select id = 'search_dropdown'>
+                    <option value = 'Albums with given song'>Albums with given song</option>
+                    <option value = 'Albums by artist'>Albums by artist</option>
+                    <option value = 'Albums in given genre'>Albums in given genre</option>
+                    <option value = 'Albums in given era'>Albums in given era</option>
+                    <option value = 'Albums of given type'>Albums of given record type</option>
+                    <option value = 'Records of given album'>Records of given album</option>
+                    <option value = 'Records coming in'>Records coming in</option>
+                    <option value = 'Records in stock'>Records in stock</option>
+                    <option value = 'Artist on given song'>Artist on given song</option>
+                    <option value = 'Search for barcode'>Search for barcode</option>
+                </select>
+                <input id = 'searchBtn_Input' placeholder="search..."/>
+            </div>
+            <button onclick="SearchSubmit()">Submit</button>
+
+            <ol class = 'dropDownDisplay' id = 'displayReturnQuery'></ol>
+
+            <table id="databaseOutput">
+                </table>
+
+        </div>
+
+
+        <div id="Update" style="display: none;">
+            <h1>Update Record</h1>
+            <div>
+                <div>
+                    <span>Employee #</span>
+                    <input id = 'empNum_InputUpdate' placeholder="employee #..."/>
+                </div>
+                <div>
+                    <span>Employee Password</span>
+                    <input id = 'empPass_InputUpdate' placeholder="password..."/>
+                </div>
+                <div>
+                    <span>Barcode</span>
+                    <input id = 'barcode_InputUpdate' placeholder="barcode..."/>
+                </div>
+                <div>
+                    <select id = 'update_dropdown'>
+                        <option value = 'Update record price'>Update record price</option>
+                        <option value = 'Update record condition'>Update record condition</option>
+                        <option value = 'Update record status'>Update record status</option>
+                    </select>
+                    <input id = 'update_InputUpdate' placeholder = 'update value...' />
+                </div>
+                <button onclick="UpdateSubmit()">Submit</button>
+            </div>
+            
+            <table id="updateOutput">
+                </table>
+
+        </div>
+
+
+        <div id="Sell" style="display: none;">
+            <h1>Sell Record</h1>
+                <div>
+                    <div>
+                        <span>Employee #</span>
+                        <input id = 'empNum_InputSell' placeholder="employee #..."/>
+                    </div>
+                    <div>
+                        <span>Employee Password</span>
+                        <input id = 'empPass_InputSell' placeholder="password..."/>
+                    </div>
+                    <div>
+                        <span>Barcode</span>
+                        <input id = 'barcode_InputSell' placeholder="barcode..."/>
+                    </div>
+                </div>
+                <button onclick="SellSubmit()">Submit</button>
+            
+            <table id="sellOutput">
+                </table>
+
+        </div>
+
+
+        <div id="Insert" style="display: none;">
+            <h1>Insert Record</h1>
+            <div>
+                <div>
+                    <span>Employee #</span>
+                    <input id = 'insert_employeeNumIn' placeholder="employee #..."/>
+                </div>
+                <div>
+                    <span>Employee Password</span>
+                    <input id = 'insert_passwordIn' placeholder="password..."/>
+                </div>
+                <div>
+                    <span>Barcode</span>
+                    <input id = 'insert_barcodeIn' placeholder="barcode..."/>
+                </div>
+                <div>
+                    <span>Album Title</span>
+                    <input id = 'insert_titleIn' placeholder="album title..."/>
+                </div>
+                <div>
+                    <span>Album Artist</span>
+                    <input id = 'insert_artistIn' placeholder="album artist..."/>
+                </div>
+                <div>
+                    <span>Price</span>
+                    <input id = 'insert_priceIn' placeholder="price..."/>
+                </div>
+                <div>
+                    <span>Record Status</span>
+                    <select id = 'statusSelect'>
+                        <option value = 'Incoming'>Incoming</option>
+                        <option value = 'In Stock'>In Stock</option>
+                        <option value = 'Out of Stock'>Out of Stock</option>
+                        <option value = 'Sold'>Sold</option>
+                    </select>
+                </div>
+                <div>
+                    <span>Record Type</span>
+                    <select id = 'recordTypeSelect'>
+                        <option value = '45 Vinyl'>45 Vinyl</option>
+                        <option value = '30 Vinyl'>30 Vinyl</option>
+                        <option value = 'Compact Disc'>Compact Disc</option>
+                        <option value = 'Cassette Tape'>Cassette Tape</option>
+                    </select>
+                </div>
+                <div>
+                    <span>Record Condition</span>
+                    <select id = 'conditionSelect'>
+                        <option value = 'New'>New</option>
+                        <option value = 'Used'>Used</option>
+                    </select>
+                </div>
+            </div>
+
+            <button onclick="InsertSubmit()" >Submit</button>
+
+            <table id="insertOutput">
+                </table>
+
+        </div>
+    </div>
+
+
+    
+</body>
+
+    <script>
+        function SearchSubmit() {
+            var select = document.getElementById('search_dropdown');
+            var value = select.selectedIndex;
+            let test = [value, document.getElementById('searchBtn_Input').value]; 
+            console.log(test);
+            var xhr = new XMLHttpRequest();
+            var url = "api/Database/";
+       
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    BuildTable(xhr.responseText, "databaseOutput");
+                }
+            }
+
+            var data = JSON.stringify({ "Value": value, "Input": document.getElementById('searchBtn_Input').value });
+            xhr.send(data);
+        }
+        function InsertSubmit() {
+            // var select = document.getElementById('numbers');
+            // var value = select.options[select.selectedIndex].value;
+            // let test = [document.getElementById('ex_input').value, value]; 
+            // console.log(test);
+            let employee_number = document.getElementById('insert_employeeNumIn').value;
+            let employee_password = document.getElementById('insert_passwordIn').value;
+            let barcode = document.getElementById('insert_barcodeIn').value;
+            let album_title = document.getElementById('insert_titleIn').value;
+            let artist = document.getElementById('insert_artistIn').value;
+            let price = document.getElementById('insert_priceIn').value;
+
+            let statusSelect = document.getElementById('statusSelect');
+
+            let recordTypeSelect = document.getElementById('recordTypeSelect');
+
+            let conditionSelect = document.getElementById('conditionSelect');
+
+            var xhr = new XMLHttpRequest();
+            var url = "api/Database/";
+       
+            xhr.open("PUT", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    BuildTable(xhr.responseText, "insertOutput");
+                }
+            }
+
+            var data = JSON.stringify({ "EmployeeNumber": employee_number, "EmployeePassword": employee_password, "Barcode": barcode, 
+                                        "AlbumTitle": album_title, "AlbumArtist": artist, "Price": price, "Status": statusSelect.selectedIndex,
+                                        "Type": recordTypeSelect.selectedIndex, "Condition": conditionSelect.selectedIndex });
+
+
+            xhr.send(data);
+        }
+
+
+        function hideShow_Search() {
+            var a = document.getElementById("Search");
+            var b = document.getElementById("Update");
+            var c = document.getElementById("Sell");
+            var d = document.getElementById("Insert");
+            if (a.style.display === "none") {
+                a.style.display = "block";
+                b.style.display = "none";
+                c.style.display = "none";
+                d.style.display = "none";
+            } else {
+                a.style.display = "none";
+            }
+        }
+
+        function hideShow_Update() {
+            var a = document.getElementById("Update");
+            var b = document.getElementById("Search");
+            var c = document.getElementById("Sell");
+            var d = document.getElementById("Insert");
+            if (a.style.display === "none") {
+                a.style.display = "block";
+                b.style.display = "none";
+                c.style.display = "none";
+                d.style.display = "none";
+            } else {
+                a.style.display = "none";
+            }
+        }
+
+        function UpdateSubmit() {
+
+            let empNum_Input = document.getElementById('empNum_InputUpdate').value;
+            let empPass_Input = document.getElementById('empPass_InputUpdate').value;
+            let barcode_Input = document.getElementById('barcode_InputUpdate').value;
+            let update_Input = document.getElementById('update_InputUpdate').value;
+
+            var select = document.getElementById('update_dropdown');
+            var value = select.options[select.selectedIndex].value;
+        
+            var xhr = new XMLHttpRequest();
+            var url = "api/Database/";
+       
+            xhr.open("PATCH", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    BuildTable(xhr.responseText, "updateOutput");
+                }
+            }
+
+            var data = JSON.stringify({ "EmployeeNumber": empNum_Input, "EmployeePassword": empPass_Input, "Barcode": barcode_Input, 
+                                        "Value": select.selectedIndex, "Input": update_Input });
+
+
+            xhr.send(data);
+        }
+
+        function hideShow_Sell() {
+            var a = document.getElementById("Sell");
+            var b = document.getElementById("Update");
+            var c = document.getElementById("Search");
+            var d = document.getElementById("Insert");
+            if (a.style.display === "none") {
+                a.style.display = "block";
+                b.style.display = "none";
+                c.style.display = "none";
+                d.style.display = "none";
+            } else {
+                a.style.display = "none";
+            }
+        }
+
+        function SellSubmit() {
+
+            let empNum_Input = document.getElementById('empNum_InputSell').value;
+            let empPass_Input = document.getElementById('empPass_InputSell').value;
+            let barcode_Input = document.getElementById('barcode_InputSell').value;
+            
+            var xhr = new XMLHttpRequest();
+            var url = "api/Database/";
+       
+            xhr.open("DELETE", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    BuildTable(xhr.responseText, "sellOutput");
+                }
+            }
+
+            var data = JSON.stringify({ "EmployeeNumber": empNum_Input, "EmployeePassword": empPass_Input, "Barcode": barcode_Input });
+
+
+            xhr.send(data);
+        }
+
+        function BuildTable(text, table) {
+            var databaseOutput = document.getElementById(table);
+
+            while (databaseOutput.hasChildNodes())
+            {
+                databaseOutput.removeChild(databaseOutput.firstChild);
+            }
+
+            var results = eval(text);
+
+            for (var key in results) 
+            {
+                if (results.hasOwnProperty(key)) 
+                {
+                    var row = databaseOutput.insertRow(0);
+                    var obj = results[key];
+                    var count = 0;
+
+                    for (var prop in obj) 
+                    {
+                        if (obj.hasOwnProperty(prop)) 
+                        {
+                            var cell = row.insertCell(count);
+                            var items = Object.keys(obj);
+                            cell.innerHTML = prop;
+                            cell.innerHTML = obj[prop];
+                            count++;
+                        }
+                    }
+                }
+            }
+
+            var row = databaseOutput.insertRow(0);
+            var count = 0;
+            for (var prop in obj) 
+            {
+                if (obj.hasOwnProperty(prop)) 
+                {
+                    var cell = row.insertCell(count);
+                    var items = Object.keys(obj);
+                    cell.innerHTML = prop;
+                    count++;
+                }
+            }
+        }
+
+        function hideShow_Insert() {
+            var a = document.getElementById("Insert");
+            var b = document.getElementById("Update");
+            var c = document.getElementById("Sell");
+            var d = document.getElementById("Search");
+            if (a.style.display === "none") {
+                a.style.display = "block";
+                b.style.display = "none";
+                c.style.display = "none";
+                d.style.display = "none";
+            } else {
+                a.style.display = "none";
+            }
+        }
+    </script>
